@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import requests
 
 sqlmap_url = "http://someserver.com:8775" #This is the server where you are running sqlmapapi.py from https://github.com/sqlmapproject/sqlmap/tarball/master
