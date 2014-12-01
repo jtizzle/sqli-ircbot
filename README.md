@@ -2,18 +2,18 @@ sqli-ircbot
 ===========
 
 multi-server ircbot that works with the sqlmap API for security auditing
-features
+Features
 ---------
-multi server and multi channel
-markovian AI chaining
-sqlmap scanning
-btc rates
-md5 and sha1 password cracking from web based API
+*multi server and multi channel
+*markovian AI chaining
+*sqlmap scanning
+*btc rates
+*md5 and sha1 password cracking from web based API
 
-requires beautifulsoup4 and requests python3 packages
+####requires beautifulsoup4 and requests python3 packages
 
 ***
-for sqlmap features to work, you must be running sqlmapapi.py from the sqlmap package
+For sqlmap features to work, you must be running sqlmapapi.py from the sqlmap package
 here https://github.com/sqlmapproject/sqlmap/tarball/master
 
 It can be run on remote server or on localhost. by defualt it is configured to run through tor in modules/sqlmap.py
