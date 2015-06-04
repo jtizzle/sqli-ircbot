@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from modules.markovian import Markovian
 from modules.sqlmap import *
 
-
+#Admins
 root_admin = "name1"
 admin_one = "name2"
 
