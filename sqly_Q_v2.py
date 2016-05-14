@@ -7,9 +7,10 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from modules.markovian import Markovian
 from modules.sqlmap import *
+import string
 
 # Admins
-root_admin = "name1"
+root_admin = "r4lph"
 admin_one = "name2"
 
 ## IRC Colors ##
@@ -32,7 +33,7 @@ lmagenta = "\x02\x0313"
 red = "\x02\x0304"
 lbrown = "\x02\x0308"
 
-# String check for Markov chaining
+#   String check for Markov chaining
 string_check = ['hey', 'something']
 
 # Used to determine if a "." needs to be added to end of sentence in log for Markov.
@@ -135,6 +136,7 @@ class IRC_Server:
                 self.irc_sock.send("PONG ".encode() + response.encode() + "\r\n".encode())
             if str(recv).find("PRIVMSG") != -1:
                 # This block is our variables
+                self.random_nickname()
                 irc_user_nick = str(recv).split('!')[0].split(":")[1]
                 irc_user_host = str(recv).split('@')[1].split(' ')[0]
                 irc_channel = str(recv).split()[2]  # gives us a channel variable inside of this function
@@ -157,38 +159,39 @@ class IRC_Server:
                         self.process_command(irc_user_nick, irc_user_nick)
                     else:
                         continue
-                # Check if a command was issud
-                if (str(irc_user_message[0]) == "!") and irc_channel != self.irc_nick:
-                    self.command = str(irc_user_message[1:])
-                    self.process_command(irc_user_nick, irc_channel)
-                # Returns the title of the webpage
-                if "http" in irc_user_message:
-                    try:
-                        words = irc_user_message.split()
-                        parseurl = words[0]
-                        website = urlopen(parseurl)
-                        urltitle = BeautifulSoup(website)
-                        self.send_message_to_channel(bold + (urltitle.title.string), irc_channel)
-                    except:
-                        pass
-                # If any trigger word in message, activate markovian AI
-                try:
-                    if any(trigger in str(irc_user_message) for trigger in
-                           string_check) and irc_channel != self.irc_nick:
-                        print(irc_user_message)
-                        markov = Markovian()
-                        my_sentence = markov.markov()
-                        self.send_message_to_channel((my_sentence), irc_channel)
-                except:
-                    print("ERROR: not enough chatter yet!")
-
-                # Adds a '.'' to the end of logs if sentence is ended with punctuation
-                if any(terminator in str(irc_user_message) for terminator in end_sentence):
-                    with open("txt_files/chatter.txt", "a") as logs:
-                        logs.write(irc_user_message + '\r\n')
-                else:
-                    with open("txt_files/chatter.txt", "a") as logs:
-                        logs.write(irc_user_message + '.' + '\r\n')
+                    # Check if a command was issud
+                    # if ( str(irc_user_message[0]) == "!" ) and irc_channel != self.irc_nick:
+                    # 	self.command = str(irc_user_message[1:])
+                    # 	self.process_command(irc_user_nick, irc_channel )
+                    # #Returns the title of the webpage
+                    # if  "http"  in  irc_user_message:
+                    # 	try:
+                    # 		words = irc_user_message.split()
+                    # 		parseurl = words[0]
+                    # 		website = urlopen(parseurl)
+                    # 		urltitle = BeautifulSoup(website)
+                    # 		self.send_message_to_channel(bold + (urltitle.title.string), irc_channel )
+                    # 	except:
+                    # 		pass
+                    # #If any trigger word in message, activate markovian AI
+                    # try:
+                    # 	if any(trigger in str(irc_user_message) for trigger in string_check) and irc_channel != self.irc_nick:
+                    # 			print(irc_user_message)
+                    # 			markov = Markovian()
+                    # 			my_sentence = markov.markov()
+                    # 			self.send_message_to_channel((my_sentence), irc_channel)
+                    # except:
+                    # 	print("ERROR: not enough chatter yet!")
+                    #
+                    #
+                    #
+                    # #Adds a '.'' to the end of logs if sentence is ended with punctuation
+                    # if any(terminator in str(irc_user_message) for terminator in end_sentence):
+                    # 	with open("txt_files/chatter.txt", "a") as logs:
+                    # 		logs.write(irc_user_message + '\r\n')
+                    # else:
+                    # 	with open("txt_files/chatter.txt", "a") as logs:
+                    # 		logs.write(irc_user_message + '.' + '\r\n')
 
     # This function sends a message to a channel, which must start with a #.
     def send_message_to_channel(self, data, channel):
@@ -203,6 +206,12 @@ class IRC_Server:
             self.irc_sock.send(str_buff.encode())
         # This needs to test if the channel is full
         # This needs to modify the list of active channels
+
+    def random_nickname(self):
+        random_name = ''.join(random.choice(string.ascii_uppercase) for _ in range(10))
+        print(random_name)
+        str_buff = ("NICK %s \r\n") % (random_name)
+        self.irc_sock.send(str_buff.encode())
 
     # This function takes a channel, which must start with a #.
     def quit_channel(self, channel):
@@ -547,11 +556,11 @@ class IRC_Server:
 
 # Here begins the main programs flow:
 
-test = IRC_Server("server1", 6667, "sqly_Q", "#channel passwd")
-run_test = threading.Thread(None, test.connect)
-run_test.start()
+# test = IRC_Server("server1", 6667, "sqly_Q", "#channel passwd")
+# run_test = threading.Thread(None, test.connect)
+# run_test.start()
 
-test2 = IRC_Server("server2", 6667, "sqly_Q", "#channel")
+test2 = IRC_Server("holmes.freenode.net", 6667, "gaynlgga", "##MDE")
 run_test2 = threading.Thread(None, test2.connect)
 run_test2.start()
 
