@@ -183,12 +183,13 @@ class IRC_Server:
                     print("ERROR: not enough chatter yet!")
 
                 # Adds a '.'' to the end of logs if sentence is ended with punctuation
-                if any(terminator in str(irc_user_message) for terminator in end_sentence):
-                    with open("txt_files/chatter.txt", "a") as logs:
-                        logs.write(irc_user_message + '\r\n')
-                else:
-                    with open("txt_files/chatter.txt", "a") as logs:
-                        logs.write(irc_user_message + '.' + '\r\n')
+                if "http" not in irc_user_message and "www" not in irc_user_message:
+                    if any(terminator in str(irc_user_message) for terminator in end_sentence):
+                        with open("txt_files/chatter.txt", "a") as logs:
+                            logs.write(irc_user_message + '\r\n')
+                    else:
+                        with open("txt_files/chatter.txt", "a") as logs:
+                            logs.write(irc_user_message + '.' + '\r\n')
 
     # This function sends a message to a channel, which must start with a #.
     def send_message_to_channel(self, data, channel):
@@ -547,11 +548,11 @@ class IRC_Server:
 
 # Here begins the main programs flow:
 
-test = IRC_Server("server1", 6667, "sqly_Q", "#channel passwd")
-run_test = threading.Thread(None, test.connect)
-run_test.start()
+# test = IRC_Server("server1", 6667, "sqly_Q", "#channel passwd")
+# run_test = threading.Thread(None, test.connect)
+# run_test.start()
 
-test2 = IRC_Server("server2", 6667, "sqly_Q", "#channel")
+test2 = IRC_Server("holmes.freenode.net", 6667, "sqly_Q", "#ralphtest")
 run_test2 = threading.Thread(None, test2.connect)
 run_test2.start()
 
