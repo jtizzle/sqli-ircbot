@@ -129,6 +129,7 @@ class IRC_Server:
             if len(recv) == 0:
                 self.is_connected = False
                 self.reconnect()
+            recv = recv.decode('utf-8', 'ignore').encode('utf-8')
             print(recv.decode('utf-8'))
             if str(recv).find("PING") != -1:
                 response = str(recv).split("PING")[1]
