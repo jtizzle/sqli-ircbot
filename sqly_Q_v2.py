@@ -178,11 +178,12 @@ class IRC_Server:
                 # If any trigger word in message, activate markovian AI
                 try:
                     if any(trigger in str(irc_user_message) for trigger in
-                           string_check) and irc_channel != self.irc_nick and CURRENT_CHAR_COUNT >= CHATTER_LIMIT:
+                           string_check) and irc_channel != self.irc_nick and self.CURRENT_CHAR_COUNT >= self.CHATTER_LIMIT:
                         print(irc_user_message)
                         markov = Markovian()
                         my_sentence = markov.markov()
                         self.send_message_to_channel((my_sentence), irc_channel)
+                        self.CURRENT_CHAR_COUNT = 0
                 except:
                     print("ERROR: not enough chatter yet!")
 
