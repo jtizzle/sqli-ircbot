@@ -38,7 +38,6 @@ string_check = ['hey', 'something']
 # Used to determine if a "." needs to be added to end of sentence in log for Markov.
 end_sentence = [".", "?", "!"]
 
-
 class IRC_Server:
     # The default constructor - declaring our global variables
     # channel should be rewritten to be a list, which then loops to connect, per channel.
@@ -53,6 +52,8 @@ class IRC_Server:
         self.is_connected = False
         self.should_reconnect = False
         self.command = ""
+        self.CHATTER_LIMIT = 400
+        self.CURRENT_CHAR_COUNT = 0
 
     def connect(self):
         try:
@@ -149,6 +150,8 @@ class IRC_Server:
                 # Print out of what is actually going on
                 print (("(%s): %s: %s") % (irc_channel, irc_user_nick,
                                            irc_user_message))  # prints the message that was just said into our terminal
+                self.CURRENT_CHAR_COUNT += len(irc_user_message)
+                print("current char count is {}".format(self.CURRENT_CHAR_COUNT))
                 # Prevents an endless loop if trigger words on PM'd to bot
                 if irc_channel == self.irc_nick:
                     if any(private in irc_user_message for private in string_check):
@@ -175,7 +178,7 @@ class IRC_Server:
                 # If any trigger word in message, activate markovian AI
                 try:
                     if any(trigger in str(irc_user_message) for trigger in
-                           string_check) and irc_channel != self.irc_nick:
+                           string_check) and irc_channel != self.irc_nick and CURRENT_CHAR_COUNT >= CHATTER_LIMIT:
                         print(irc_user_message)
                         markov = Markovian()
                         my_sentence = markov.markov()
