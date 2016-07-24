@@ -255,6 +255,18 @@ class IRC_Server:
             # These commands take parameters
             else:
 
+                if (command[0] == "say"):
+                    chanToSendTo = command[1]
+                    msgToSendToChan = []
+                    index = 0
+                    for word in command:
+                    	if index > 1:
+                    		msgToSendToChan.append(word)
+                    	index += 1
+                    textAsString = " ".join(msgToSendToChan)
+                    print(chanToSendTo + " " + textAsString)
+                    self.send_message_to_channel(textAsString, chanToSendTo)
+
                 # This command makes the bot join a channel
                 # This needs to be rewritten in a better way, to catch multiple channels
                 if (command[0] == "join"):
