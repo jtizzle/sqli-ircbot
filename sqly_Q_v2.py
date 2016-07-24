@@ -188,7 +188,7 @@ class IRC_Server:
                     print("ERROR: not enough chatter yet!")
 
                 # Adds a '.'' to the end of logs if sentence is ended with punctuation
-                if "http" not in irc_user_message and "www" not in irc_user_message:
+                if "http" not in irc_user_message and "www" not in irc_user_message and irc_user_message[0] != "!":
                     if any(terminator in str(irc_user_message) for terminator in end_sentence):
                         with open("txt_files/chatter.txt", "a") as logs:
                             logs.write(irc_user_message + '\r\n')
