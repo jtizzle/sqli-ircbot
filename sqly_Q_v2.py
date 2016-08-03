@@ -114,11 +114,11 @@ class IRC_Server:
                 self.irc_sock.send(str_buff.encode())
                 print ("Joining channel %s" % self.irc_channel)
 
-                str_buff = ("PRIVMSG NICKSERV REGISTER password123 notarobot@aol.com\r\n")
+                str_buff = ("PRIVMSG NICKSERV :REGISTER password123 notarobot@aol.com\r\n")
                 self.irc_sock.send(str_buff.encode())
                 print ("Registering")
 
-                str_buff = ("PRIVMSG NICKSERV IDENTIFY password123\r\n")
+                str_buff = ("PRIVMSG NICKSERV :IDENTIFY password123\r\n")
                 self.irc_sock.send(str_buff.encode())
                 print ("Indetifying")
 
@@ -143,6 +143,7 @@ class IRC_Server:
                 try:
                     irc_user_message = ((recv.decode('utf-8')).split(irc_channel + ' :')[1]).rstrip('\r\n')
                 except:
+                    irc_user_message = "fatal error"
                     pass
                 # Check for any lingering line breaks or carrige returns
                 if (chr(92) + 'r') in irc_user_message:
@@ -243,12 +244,12 @@ class IRC_Server:
                     exit(0)
 
                 if (command[0] == "register"):
-                    str_buff = ("PRIVMSG NICKSERV REGISTER password123 notarobot@aol.com\r\n")
+                    str_buff = ("PRIVMSG NICKSERV :REGISTER password123 notarobot@aol.com\r\n")
                     self.irc_sock.send(str_buff.encode())
                     print ("Registering")
 
                 if (command[0] == "identify"):
-                    str_buff = ("PRIVMSG NICKSERV IDENTIFY password123\r\n")
+                    str_buff = ("PRIVMSG NICKSERV :IDENTIFY password123\r\n")
                     self.irc_sock.send(str_buff.encode())
                     print ("Indetifying")
 
